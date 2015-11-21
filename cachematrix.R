@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions create a matrix object, find its inverse and save it in cash,
+## so there is no need to solve it again, if the inverse is alredy in the cash
 
-## Write a short comment describing this function
+## This function creates a matrix object and cashes its inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-
+ m <- NULL
+    set <- function(y) {
+        x <<- y
+        m <<- NULL
+    }
+    get <- function() x
+    setinv <- function(inv) m <<- inv
+    getinv <- function() m
+    list(set = set, get = get,
+         setinv = setinv,
+         getinv = getinv)
 }
 
 
-## Write a short comment describing this function
+## This function finds the inverse matrix after searching it in cash 
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+      m <- x$getinv()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data, ...)
+        x$setinv(m)
+        m
 }
